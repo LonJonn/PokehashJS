@@ -1,11 +1,30 @@
 {
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.17.2"
+  "name": "pokehashjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "dev": "npx watchify ./src/app.js -o ./dist/background.js",
+    "build": "npx browserify ./src/app.js -o ./dist/background.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LonJonn/PokehashJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LonJonn/PokehashJS/issues"
+  },
+  "homepage": "https://github.com/LonJonn/PokehashJS#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "image-hash": "^3.3.7"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.3",
+    "eslint": "^5.16.0",
+    "watchify": "^3.11.1"
   }
 }

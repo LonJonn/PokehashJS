@@ -3,7 +3,7 @@
   "name": "Discord Shh",
   "version": "0.1",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["dist/background.js"]
   },
   "permissions": [
     "webRequest",
