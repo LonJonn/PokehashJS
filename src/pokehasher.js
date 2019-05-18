@@ -5,13 +5,16 @@ const pokedex = require('../data/pokedex.json')
 const config = require('../data/config.json')
 
 class Pokehasher {
-    constructor(delays) {
+    constructor(delays, debug = false) {
         this.sendAllowed = true
         this.isActive = false
+        this.debug = debug
         this.delays = delays
         this.discordUrl = null
         this.activeTimeout = null
         this.latestPokemon = null
+
+        console.info('Debug mode:', this.debug)
     }
 
     static async findPokemon(imgUrl) {
@@ -19,9 +22,15 @@ class Pokehasher {
         for (const pokemon of pokedex)
             if (pokemon.hash === hash) return pokemon.name
 
-        const notFoundError = new Error('Unable to find Pokemon.')
-        notFoundError.info = { hash, imgUrl }
-        throw notFoundError
+        throw new Error(
+            `Unable to find Pokemon.
+            hash: ${hash}
+            url: ${imgUrl}`
+        )
+    }
+
+    randomDelay() {
+        return this.delays[Math.floor(Math.random() * this.delays.length)]
     }
 
     updateChannelId(url) {
@@ -35,8 +44,8 @@ class Pokehasher {
         this.discordUrl = `https://discordapp.com/api/v6/channels/${id}/messages`
     }
 
-    sendMessage(message, debug = false) {
-        if (debug) return console.log('Debug:', message)
+    sendMessage(message) {
+        if (this.debug) return console.log('Debug:', message)
         if (!this.sendAllowed) return
 
         setTimeout(() => {
@@ -50,7 +59,7 @@ class Pokehasher {
                     }
                 }
             )
-        }, this.delay)
+        }, this.randomDelay())
     }
 
     preventSpam(duration) {

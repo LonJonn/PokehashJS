@@ -1,6 +1,6 @@
 const Pokehasher = require('./pokehasher')
 
-const delays = [1000, 1500]
+const delays = [750, 1000, 1250]
 const pokehash = new Pokehasher(delays)
 
 // On Pokemon spawn
@@ -15,7 +15,7 @@ chrome.webRequest.onBeforeRequest.addListener(
             pokehash.latestPokemon = req.url
             Pokehasher.findPokemon(pokehash.latestPokemon)
                 .then(found => {
-                    pokehash.sendMessage(`p!catch ${found}`, true)
+                    pokehash.sendMessage(`p!catch ${found}`)
                     pokehash.preventSpam(10000)
                 })
                 .catch(console.error)
