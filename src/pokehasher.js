@@ -89,12 +89,13 @@ class Pokehasher {
     }
 
     tempDisable(duration) {
+        if (!this.isActive) return
+
         if (this.activeTimeout) clearTimeout(this.activeTimeout)
         this.activeTimeout = setTimeout(() => {
             this.toggleActive()
         }, duration)
 
-        if (!this.isActive) return
         console.info('Temporarily disabled while switching channels')
         this.toggleActive()
     }

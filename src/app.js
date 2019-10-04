@@ -1,6 +1,6 @@
 const Pokehasher = require('./pokehasher')
 
-const delays = [750, 1000, 1250]
+const delays = [1000, 1000, 1250]
 const pokehash = new Pokehasher(delays)
 
 // On Pokemon spawn
@@ -10,13 +10,13 @@ chrome.webRequest.onBeforeRequest.addListener(
             req.url.includes('PokecordSpawn.jpg') &&
             pokehash.discordUrl &&
             pokehash.isActive &&
-            pokehash.latestPokemon !== req.url
+            pokehash.latestPokemon !== req.url.split('?')[0]
         ) {
-            pokehash.latestPokemon = req.url
+            [pokehash.latestPokemon] = req.url.split('?')
             Pokehasher.findPokemon(pokehash.latestPokemon)
                 .then(found => {
                     pokehash.sendMessage(`p!catch ${found}`)
-                    pokehash.preventSpam(10000)
+                    pokehash.preventSpam(5000)
                 })
                 .catch(console.error)
         }
